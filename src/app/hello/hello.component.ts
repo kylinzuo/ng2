@@ -1,25 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-hello',
   template: `
     <div>
-      <input #usernameRef type="text">
-      <input #passwordRef type="password">
-      <button (click)="onClick(usernameRef.value, passwordRef.value)">Login</button>
+      <input type="text" [(ngModel)] = 'username'>
+      <input type="password" [(ngModel)] = 'password'>
+      <button (click)="onClick()">Login</button>
     </div>
   `,
   styles: []
 })
 export class HelloComponent implements OnInit {
-  constructor() { }
+  username : string = ''
+  password : string = ''
+  constructor(@Inject('auth') private service) { }
 
   ngOnInit() {
   }
 
-  onClick(username, password) {
-    console.log(`username:${username}`);
-    console.log(`password:${password}`)
+  onClick() {
+    console.log('auth result is:' + this.service.loginWithCredentials(this.username, this.password))
   }
 
 }
